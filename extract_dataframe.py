@@ -42,8 +42,28 @@ class TweetDfExtractor:
     def find_full_text(self)->list:
         text = [entry['text'] for entry in self.tweets_list]
         return text
+        #text = [x.get('retweeted_status', {}).get('extended_tweet',{}).get('full_text', '') \
+                #for x in self.tweets_list]
+        #return text
     def find_sentiments(self, text)->list:
+        polarity = [TextBlob(i).polarity for i in text]
+        self.subjectivity = [TextBlob(i).subjectivity for i in text]
+        return polarity, self.subjectivity
+        #text = [x.get('retweeted_status', {}) for x in self.tweets_list]
+        #extended_tweet = [x.get('extended_tweet', {}) for x in text]
+        #full_text = [x.get('full_text', '') for x in extended_tweet]
+        #text = [entry['text'] for entry in self.tweets_list]
+        #sentimentedText = [TextBlob(x) for x in text]
+        #polarity = []
+        #subjectivity = []
+        #for i in range(len(sentimentedText)):
+           # polarity.append(sentimentedText[i].sentiment.polarity)
+            #subjectivity.append(sentimentedText[i].sentiment.subjectivity)
         
+<<<<<<< HEAD
+       # return polarity, subjectivity
+       
+=======
         text = [x.get('retweeted_status', {}) for x in self.tweets_list]
         extended_tweet = [x.get('extended_tweet', {}) for x in text]
         full_text = [x.get('full_text', '') for x in extended_tweet]
@@ -57,6 +77,7 @@ class TweetDfExtractor:
         
         return polarity, subjectivity
 
+>>>>>>> 4790fc21677f87a9d4c7af81af628f5f5bf35c75
     def find_created_time(self)->list:
         created_time = [x.get('created_at', None) for x in self.tweets_list]
         return created_time
@@ -93,7 +114,21 @@ class TweetDfExtractor:
 
     def find_hashtags(self)->list:
         # return list of all None
+<<<<<<< HEAD
+        #hashtags = [x.get('hashtags', None) for x in self.tweets_list]
+        #return hashtags
+        # self.twwts_list[0].entities.hashtags
+        entities = [x.get('entities', {}) for x in self.tweets_list]
+        un_filtered_hashtags = [x.get('hashtags', None) for x in entities]
+        hashtags = []
+        for tags in un_filtered_hashtags:
+            if(type(tags) == list and len(tags) > 0):
+                hashtags.append([x.get('text', None) for x in tags])
+            else :
+                hashtags.append(None)
+=======
         hashtags = [x.get('hashtags', None) for x in self.tweets_list]
+>>>>>>> 4790fc21677f87a9d4c7af81af628f5f5bf35c75
         return hashtags
     def find_mentions(self)->list:
        # return list of all None
